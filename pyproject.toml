@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "commands"
+dynamic = ["version"]
+description = "Hand-rolled Python wrappers around the external CLI tools run-remote's toolchain must stay external: ssh, scp, rsync, git, uv."
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "vraiti", email = "vraiti@redhat.com" }]
+keywords = ["ssh", "scp", "rsync", "git", "uv", "subprocess", "cli-wrapper"]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Operating System :: POSIX",
+    "Programming Language :: Python :: 3",
+    "Topic :: System :: Systems Administration",
+    "Typing :: Typed",
+]
+# No runtime dependencies on purpose: every wrapper shells out to a binary
+# that is expected to already be on PATH (ssh, scp, rsync, git, uv).
+dependencies = []
+
+[tool.hatch.version]
+path = "src/commands/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/commands"]
+
+[tool.hatch.build.targets.sdist]
+include = ["/src", "/LICENSE"]
