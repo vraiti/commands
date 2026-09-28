@@ -8,8 +8,3 @@ the local invocation never needs shell-quoting -- see _proc.py. The one
 place quoting is still unavoidable is inside a remote command string
 handed to `ssh`/`bash -c`; ssh.quote() (shlex.quote) is for that.
 """
-
-# Rewritten in place by .github/workflows/build-wheel.yml from the
-# workflow_dispatch `version` input; hatchling reads the wheel version from
-# here (see [tool.hatch.version] in pyproject.toml).
-__version__ = "0.0.0"

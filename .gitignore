@@ -1,19 +1,2 @@
-# Byte-compiled / cache
 __pycache__/
-*.py[cod]
-*.so
-
-# Build artifacts
-build/
-dist/
 *.egg-info/
-.eggs/
-
-# Environments
-.venv/
-venv/
-
-# Tooling caches
-.mypy_cache/
-.pytest_cache/
-.ruff_cache/
