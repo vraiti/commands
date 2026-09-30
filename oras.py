@@ -50,9 +50,11 @@ def push(dir_path: str, ref: str, content_hash: str, *, registry_config: str | N
     pushes it to ref, annotated with content_hash -- so the registry itself
     carries a visible fingerprint of what's inside, inspectable without
     pulling and extracting the whole tar."""
+    archive_name = "content.tar.zst"
     with tempfile.TemporaryDirectory() as tmp:
-        archive_path = os.path.join(tmp, "content.tar.zst")
-        _proc.run(["tar", "--zstd", "-cf", archive_path, "-C", dir_path, "."])
+        _proc.run(["tar", "--zstd", "-cf", os.path.join(tmp, archive_name), "-C", dir_path, "."])
+        # oras rejects absolute file paths (the path becomes the layer's
+        # title, which pull uses as the output file name), so push from tmp.
         _proc.run(
             [
                 "oras",
@@ -60,8 +62,9 @@ def push(dir_path: str, ref: str, content_hash: str, *, registry_config: str | N
                 ref,
                 "--annotation",
                 f"{CONTENT_HASH_ANNOTATION}={content_hash}",
-                f"{archive_path}:{LAYER_MEDIA_TYPE}",
+                f"{archive_name}:{LAYER_MEDIA_TYPE}",
                 *_registry_config_args(registry_config),
             ],
             capture=False,
+            cwd=tmp,
         )
