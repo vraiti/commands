@@ -1,7 +1,9 @@
 """Hand-rolled Python wrappers for the external CLI tools run-remote's
 toolchain must stay external -- see UTILS.md at the repo root for why each
 one can't be replaced with a Python-native (stdlib or official third-party)
-equivalent: ssh, scp, rsync, git, uv.
+equivalent: ssh, scp, rsync, git, uv, oras, systemd's CLI tools
+(systemctl, systemd-escape, systemd-id128) and inotifywait -- plus gh,
+which utils uses (see gh.py for why it stays external).
 
 Every wrapper builds subprocess argv as a list, never a shell string, so
 the local invocation never needs shell-quoting -- see _proc.py. The one
